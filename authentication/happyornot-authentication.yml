@@ -1,0 +1,31 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/happyornot-openapi-original.yml
+docs: https://happyornot.github.io/docs/api-v1/authentication/
+notes: >-
+  API v2 tokens are generated on the Organization Settings page in HappyOrNot
+  Analytics (Admin privileges required). Tokens are scoped to the groups and
+  experience points the issuing user is authorised for. v1 and v2 tokens are not
+  interchangeable. Provide the token via the X-HON-API-Token header (recommended)
+  or the auth query-string parameter.
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: ApiTokenAuth
+  type: apiKey
+  in: header
+  parameter: X-HON-API-Token
+  description: API Tokens are managed in Organization Settings page in Analytics
+  sources:
+  - openapi/happyornot-openapi-original.yml
+- name: ApiTokenViaQueryStringAuth
+  type: apiKey
+  in: query
+  parameter: auth
+  description: E.g. /some/path?auth=<tokenhere>
+  sources:
+  - openapi/happyornot-openapi-original.yml
