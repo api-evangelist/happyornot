@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: HappyOrNot Customer API v2 alert-comments follow-up-question-localizations API
+  description: "### HappyOrNot Customer API v2 is designed for\n* fetching feedbacks of all type (button, followups, text, demographics, contact details)\n* fetching information about experience points, surveys and other\n  metadata related to fetching and displaying feedback\n* fetching information about users of HappyOrNot Analytics\n* fetching information about smileys, that is the physical devices or digital tokens for feedback gathering\n\n### Useful links:\n* [HappyOrNot website](https://www.happy-or-not.com)\n* [HappyOrNot Analytics](https://reporting.happy-or-not.com)\n\n### Base URL for API calls:\nhttps://api.happy-or-not.com/v2/<br>\nExample:<br>\nhttps://api.happy-or-not.com/v2/experience-points.json\n\n### Entities explained\n**Experience point** = Represents a point of interaction for feedback gathering.<br>\nCan represent a physical location, e.g. \"London Store 1\" or a digital location, e.g. \"Webshop checkout\".<br>\n**Group** = Represents a grouping of experience points. Grouping can be e.g. geographical or organizational.<br>\nExamples are countries, cities or organization functions.<br>\nGroups and Experience points form a hierarchical tree structure, see example below.<br>\n**Survey** = Time-bounded surveys that contain a question and are associated with one or more experience points.<br>\n**Question** = Localizable questions are associated to surveys, e.g. \"How was the service?\"<br>\n**Smiley** = Physical or digital \"device\" that collect feedback. Smiley is associated with an experience point.<br>\nTypes of smileys are Smiley Terminal, Smiley Touch and Smiley Digital.<br>\n**User** = User account of HappyOrNot Analytics, identified by email address and name. Has an associated role and data access.<br>\n<br>\n**Example for group / experience point hierarchy:**<br>\n<pre>\n* Company X <- this is root group and parent of Finland and Sweden\n  * Finland  <- this group is parent for Helsinki and Tampere store experience points\n    * Helsinki store <- this is an experience point\n    * Tampere store <- this is an experience point\n  * Sweden <- this group is parent for Stockholm and Malmö store experience points\n    * Stockholm store <- this is an experience point\n    * Malmö store <- this is an experience point\n</pre>\n### Feedback types explained\n**Button Feedback** = The feedback type that is always present in surveys.<br>\nVisually represented as 4 or 5 smiley faces or NPS scale (0..10).<br>\n**Followup Feedback** = Predefined set of selectable textual values (max 6) to explain the button feedback given.<br>\n**Text Feedback** = Freeform text feedback. Available in Smileys that support keyboard input.<br>\n**Demographics** = AI based estimate on feedback giver's age and gender. Supported by Smiley Touch only.<br>\n**Contact Details** = If a feedback giver wants to get contacted, name and email or phone number can be given.<br>\n**Metadata** = Arbitrary set of key-value pairs related to this particular feedback.\n\n### Entity Relationships Diagrams\n<img alt=\"Entity Relationships Diagram\" src=\"er-diagram.svg\"/>\n<img alt=\"Entity Relationships Diagram for feedbacks\" src=\"er-diagram-feedbacks.svg\"/>\n\n### Authentication/Authorisation\nAuthentication and authorisation is based on a *token*.\nYou can generate API v2 tokens in your *Organization Settings* page at HappyOrNot Analytics (you need to have Admin privileges to access that page).\nYou should provide a token with a request in one of the two ways:<br>\n* Request Header *X-HON-API-Token*. E.g. X-HON-API-Token: your-token-here (Suggested way)\n* Query string parameter *auth*. E.g. /v2/experience-points.json?auth=your-token-here (Ok for testing)<br>\n\n#### Token introspection\nFor a valid authenticated token it is possible to requests metadata, including token id, name and scopes.\n\n### Paging:\nPaging of responses is controlled using *offset* and *limit* parameters.<br>\nHTTP response header *X-More-Available* (value \"true\" or \"false\") can be used to determine if more data is available.<br>\nExample:<br>\nhttps://api.happy-or-not.com/v2/alerts.json?offset=0&limit=500<br>\n<br>\nHTTP response header *Link* is provided (if above described X-More-Available: true) and it includes the link to next page of results.<br>\nExample:<br>\nLink: <https://api.happy-or-not.com/v2/alerts.json?offset=500&limit=500>; rel=\"next\"<br>\n\n### Terms mapping between API v1 and API v2\n<pre>\nAPI v1\t\t\tAPI v2\n-----------------------------------------------------------------------\nN/A\t\t\tToken Introspection\nResults/Rawresults\tButton Feedbacks\nResults/Rawresults\tFollow-up Feedbacks\nResults/Rawresults\tText Feedbacks\nN/A\t\t\tDemographics\nN/A\t\t\tContact Details\nN/A                     Metadata\nFolders/Children\tGroups and Experience Points\nSurveys\t\t\tNo direct mapping available, but v1 surveys are mappings of v2 Experience Points to v2 Surveys\nQuestions\t\tSurveys\nN/A \t\t\tQuestion\nN/A\t\t\tFollow-up questions\nN/A\t\t\tFollow-up options\nAlerts\t\t\tAlerts\nN/A\t\t\tAlert Specifications\nN/A\t\t\tAlert Comments\nN/A\t\t\tUsers\nN/A\t\t\tSmileys\nN/A\t\t\tCustom Data Fields\nN/A\t\t\tAll localizations\n</pre>\n<br>\n\n### Need help?\nPlease email support@happy-or-not.com to get more assistance.\n"
+  termsOfService: https://www.happy-or-not.com/terms/
+  contact:
+    email: api@happy-or-not.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: '2.0'
+servers:
+- url: https://api.happy-or-not.com/v2
+security:
+- ApiTokenAuth: []
+- ApiTokenViaQueryStringAuth: []
+tags:
+- name: follow-up-question-localizations
+  description: Endpoints and data definitions related to localizations for questions used for follow ups in surveys
+paths:
+  /follow-up-question-localizations.{format}:
+    get:
+      tags:
+      - follow-up-question-localizations
+      summary: List follow-up question localizations
+      description: List of all follow-up question localizations
+      operationId: listFollowupQuestionLocalizations
+      parameters:
+      - $ref: '#/components/parameters/formatParam'
+      - $ref: '#/components/parameters/csvSeparatorParam'
+      - name: followupQuestionId
+        in: query
+        description: list follow-up question localizations only for given follow-up question
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful follow-up question localization listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FollowupQuestionLocalization'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching FollowupQuestionLocalization object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+components:
+  responses:
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
+  schemas:
+    FollowupQuestionLocalization:
+      type: object
+      properties:
+        followupQuestionId:
+          type: integer
+          format: int64
+        locale:
+          type: string
+          pattern: ^[a-z]{2}(_[A-Z]{2})?$
+          example: en_US
+        text:
+          type: string
+      required:
+      - followupQuestionId
+      - locale
+      - text
+  parameters:
+    formatParam:
+      name: format
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+        - json
+        - csv
+    csvSeparatorParam:
+      name: csvSeparator
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1
+        default: ','
+      description: Applied only for CSV responses
+  securitySchemes:
+    ApiTokenAuth:
+      type: apiKey
+      in: header
+      name: X-HON-API-Token
+      description: API Tokens are managed in Organization Settings page in Analytics
+    ApiTokenViaQueryStringAuth:
+      type: apiKey
+      in: query
+      name: auth
+      description: E.g. /some/path?auth=<tokenhere>
+externalDocs:
+  description: More about HappyOrNot APIs
+  url: https://happyornot.github.io/docs/api/
