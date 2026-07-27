@@ -1,0 +1,76 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/happyornot-openapi-original.yml
+note: No official hosted/remote HappyOrNot MCP server found. Candidate tool list derived one-per-operation
+  from the HappyOrNot Customer API v2 OpenAPI (all read-only GET operations).
+server:
+  name: happyornot
+  transport: http
+tools:
+- name: token_introspect
+  description: Get token metadata
+  source_operation: openapi/happyornot-openapi-original.yml#token_introspect
+- name: listButtonFeedbacks
+  description: List button feedbacks
+  source_operation: openapi/happyornot-openapi-original.yml#listButtonFeedbacks
+- name: listFollowupFeedbacks
+  description: List follow-up feedbacks
+  source_operation: openapi/happyornot-openapi-original.yml#listFollowupFeedbacks
+- name: listTextFeedbacks
+  description: List text feedbacks
+  source_operation: openapi/happyornot-openapi-original.yml#listTextFeedbacks
+- name: listDemographics
+  description: List demographics information
+  source_operation: openapi/happyornot-openapi-original.yml#listDemographics
+- name: listContactDetails
+  description: List contact details information
+  source_operation: openapi/happyornot-openapi-original.yml#listContactDetails
+- name: listMetadata
+  description: List feedback metadata
+  source_operation: openapi/happyornot-openapi-original.yml#listMetadata
+- name: listExperiencePoints
+  description: List experience points and groups
+  source_operation: openapi/happyornot-openapi-original.yml#listExperiencePoints
+- name: listCustomDataFields
+  description: List custom data fields for experience point
+  source_operation: openapi/happyornot-openapi-original.yml#listCustomDataFields
+- name: listCompanyCustomDataFields
+  description: List custom data fields for company
+  source_operation: openapi/happyornot-openapi-original.yml#listCompanyCustomDataFields
+- name: listSurveys
+  description: List surveys
+  source_operation: openapi/happyornot-openapi-original.yml#listSurveys
+- name: listQuestions
+  description: List questions
+  source_operation: openapi/happyornot-openapi-original.yml#listQuestions
+- name: listQuestionLocalizations
+  description: List question localizations
+  source_operation: openapi/happyornot-openapi-original.yml#listQuestionLocalizations
+- name: listFollowupQuestions
+  description: List follow-up questions
+  source_operation: openapi/happyornot-openapi-original.yml#listFollowupQuestions
+- name: listFollowupQuestionLocalizations
+  description: List follow-up question localizations
+  source_operation: openapi/happyornot-openapi-original.yml#listFollowupQuestionLocalizations
+- name: listFollowupOptions
+  description: List follow-up options
+  source_operation: openapi/happyornot-openapi-original.yml#listFollowupOptions
+- name: listFollowupOptionLocalizations
+  description: List follow-up option localizations
+  source_operation: openapi/happyornot-openapi-original.yml#listFollowupOptionLocalizations
+- name: listAlerts
+  description: List alerts
+  source_operation: openapi/happyornot-openapi-original.yml#listAlerts
+- name: listAlertComments
+  description: List alert comments
+  source_operation: openapi/happyornot-openapi-original.yml#listAlertComments
+- name: listAlertSpecifications
+  description: List alert specifications
+  source_operation: openapi/happyornot-openapi-original.yml#listAlertSpecifications
+- name: listUsers
+  description: List users
+  source_operation: openapi/happyornot-openapi-original.yml#listUsers
+- name: listSmileys
+  description: List smileys
+  source_operation: openapi/happyornot-openapi-original.yml#listSmileys

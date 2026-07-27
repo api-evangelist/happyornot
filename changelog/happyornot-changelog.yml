@@ -1,0 +1,22 @@
+generated: '2026-07-19'
+method: searched
+source: https://tl919slq65.execute-api.eu-west-1.amazonaws.com/
+scheme: date-based
+service: customer-api-v2
+entries:
+- date: '2026-06-24'
+  breaking: false
+  highlights:
+  - customer-api-v2 Mixpanel endpoints pointed to EU servers
+- date: '2025-06-24'
+  breaking: false
+  highlights:
+  - Added support for Urgent tag across services including customer-api-v2
+- date: '2025-05-19'
+  breaking: false
+  highlights:
+  - 'Two new customer-api-v2 endpoints: metadata listing and category retrieval'
+- date: '2025-04-15'
+  breaking: false
+  highlights:
+  - result-service bulk deployment and Excel import template updates

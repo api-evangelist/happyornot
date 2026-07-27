@@ -1,0 +1,12 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/happyornot-openapi-original.yml
+workflows:
+- file: happyornot-fetch-feedback.yml
+  workflowId: fetchButtonFeedback
+  title: Resolve an experience point and fetch its button feedback
+  summary: Walk the experience-point tree, resolve surveys, then pull button feedback for a period.
+- file: happyornot-monitor-alerts.yml
+  workflowId: monitorAlerts
+  title: Monitor HappyOrNot alerts
+  summary: Read alert specifications, poll triggered alerts, then read their comments.

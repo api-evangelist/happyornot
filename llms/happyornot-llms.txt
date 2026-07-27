@@ -1,0 +1,29 @@
+# HappyOrNot Customer API v2
+
+> HappyOrNot is a customer-experience feedback platform (the Smiley Terminal / Smiley Touch / Smiley Digital devices). The read-only Customer API v2 lets applications pull button, follow-up, text, demographics, contact-detail and metadata feedback plus the surveys, questions, experience points, alerts, users and smileys that produce it. Authentication is a package-scoped API token (X-HON-API-Token header or auth query param). Responses are JSON or CSV, paged with offset/limit and an X-More-Available header.
+
+## APIs
+- [HappyOrNot Customer API v2](https://api.happy-or-not.com/v2/): Read-only feedback and metadata API. Base URL https://api.happy-or-not.com/v2/
+
+## Specs
+- [OpenAPI 3.1 (verbatim)](https://api.happy-or-not.com/v2/openapi.yaml): source spec captured at openapi/happyornot-openapi-original.yml
+
+## Docs
+- [Documentation home](https://happyornot.github.io/docs/)
+- [API v2 reference](https://api.happy-or-not.com/v2/)
+- [Authentication](https://happyornot.github.io/docs/api-v1/authentication/)
+- [API FAQ](https://support.happy-or-not.com/s/article/HappyOrNot-API-FAQ)
+- [Release notes / changelog](https://tl919slq65.execute-api.eu-west-1.amazonaws.com/)
+- [Integrations & APIs](https://www.happy-or-not.com/en/solution/integrations/)
+
+## Enrichment artifacts (API Evangelist)
+- authentication/happyornot-authentication.yml — api-token auth profile
+- conventions/happyornot-conventions.yml — pagination, formats, filtering, ordering
+- errors/happyornot-problem-types.yml — 400/401/403 semantics
+- lifecycle/happyornot-lifecycle.yml — v1→v2 versioning + deprecation
+- changelog/happyornot-changelog.yml — recent dated release notes
+- data-model/happyornot-data-model.yml — entity-relationship graph
+- mcp/happyornot-mcp.yml — candidate MCP tool list (per operation)
+- conformance/happyornot-conformance.yml — standards conformance
+- packages/happyornot-packages.yml — client libraries
+- skills/ — packaged agent skills grounded in real operationIds

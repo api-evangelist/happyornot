@@ -1,0 +1,25 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for HappyOrNot Customer API v2
+  version: 1.0.0
+extends: openapi/happyornot-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-19'
+    x-apievangelist-artifacts:
+    - authentication
+    - conventions
+    - errors
+    - lifecycle
+    - changelog
+    - data-model
+    - mcp
+    - conformance
+    - packages
+    - skills
+- target: $.info
+  update:
+    x-api-style: read-only-rest
+    x-pagination: offset-limit
+    x-more-indicator-header: X-More-Available

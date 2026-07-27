@@ -1,0 +1,49 @@
+arazzo: 1.0.1
+info:
+  title: Resolve an experience point and fetch its button feedback
+  version: 1.0.0
+  summary: Walk the experience-point tree, resolve surveys, then pull button feedback for a period.
+sourceDescriptions:
+- name: happyornot
+  url: ../openapi/happyornot-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: fetchButtonFeedback
+  summary: List experience points, list surveys, then list button feedback for a window.
+  inputs:
+    type: object
+    properties:
+      period:
+        type: string
+        default: last-month
+  steps:
+  - stepId: listExperiencePoints
+    operationId: listExperiencePoints
+    parameters:
+    - name: format
+      in: path
+      value: json
+    outputs:
+      experiencePointId: $response.body#/0/experiencePointId
+  - stepId: listSurveys
+    operationId: listSurveys
+    parameters:
+    - name: format
+      in: path
+      value: json
+    outputs:
+      surveyId: $response.body#/0/surveyId
+  - stepId: listButtonFeedbacks
+    operationId: listButtonFeedbacks
+    parameters:
+    - name: format
+      in: path
+      value: json
+    - name: experiencePointId
+      in: query
+      value: $steps.listExperiencePoints.outputs.experiencePointId
+    - name: period
+      in: query
+      value: $inputs.period
+    outputs:
+      feedbacks: $response.body

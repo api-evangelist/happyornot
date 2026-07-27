@@ -1,0 +1,16 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/happyornot-openapi-original.yml
+skills:
+- file: happyornot-fetch-button-feedback.md
+  name: Fetch HappyOrNot button feedback for a location
+  api: openapi/happyornot-openapi-original.yml
+  operations: [listExperiencePoints, listSurveys, listButtonFeedbacks]
+- file: happyornot-export-feedback-dataset.md
+  name: Export a full HappyOrNot feedback dataset
+  api: openapi/happyornot-openapi-original.yml
+  operations: [listButtonFeedbacks, listFollowupFeedbacks, listTextFeedbacks, listDemographics, listContactDetails, listMetadata]
+- file: happyornot-monitor-alerts.md
+  name: Monitor HappyOrNot alerts
+  api: openapi/happyornot-openapi-original.yml
+  operations: [listAlertSpecifications, listAlerts, listAlertComments]

@@ -1,8 +1,17 @@
 aid: happyornot
-name: Happyornot
-description: 'Happyornot is a company surfaced as a portfolio company of northzone and added to the API
-  Evangelist network as a stub for enrichment. Sector: enterprise. This profile is a lead awaiting the
-  enrichment pipeline.'
+name: HappyOrNot
+description: >-
+  HappyOrNot is a Finnish customer-experience feedback company known for its Smiley
+  Terminal, Smiley Touch and Smiley Digital feedback devices used across retail,
+  airports, healthcare, public sector and workplaces. Its read-only Customer API v2
+  lets applications and BI tools pull raw feedback data — button (smiley/NPS) ratings,
+  follow-up selections, freeform text, AI demographics, contact-request details and
+  metadata — together with the experience points, groups, surveys, questions, smileys,
+  users and alerts that produce it. Authentication is a package-scoped API token
+  (X-HON-API-Token header or auth query parameter); responses are JSON or CSV, paged
+  with offset/limit and an X-More-Available header. The API is documented with an
+  OpenAPI 3.1 specification and integrates with Power BI, Tableau, Salesforce,
+  Medallia, Qualtrics and Zapier.
 url: https://raw.githubusercontent.com/api-evangelist/happyornot/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,18 +19,445 @@ x-backed-by:
 - northzone
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
+image: https://www.happy-or-not.com/wp-content/uploads/2021/03/HappyOrNot-logo.png
 tags:
 - Company
 - Enterprise
-apis: []
+- Customer Experience
+- Customer Feedback
+- Surveys
+- Analytics
+- Voice of Customer
+- Retail
+- Feedback
+apis:
+- aid: happyornot:happyornot-alert-comments-api
+  name: HappyOrNot alert-comments API
+  description: >-
+    Endpoints and data definitions related to alert comments which have been written for alerts
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - alert-comments
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-alert-comments-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-alert-specifications-api
+  name: HappyOrNot alert-specifications API
+  description: >-
+    Endpoints and data definitions related to alert specifications based on which alerts are triggered
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - alert-specifications
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-alert-specifications-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-alerts-api
+  name: HappyOrNot alerts API
+  description: >-
+    Endpoints and data definitions related to alerts which have been triggered by incoming feedback, based
+    on alert specfications
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-alerts-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-button-feedbacks-api
+  name: HappyOrNot button-feedbacks API
+  description: Button feedback related endpoints and data definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - button-feedbacks
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-button-feedbacks-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-contact-details-api
+  name: HappyOrNot contact-details API
+  description: Contact details data endpoints and data definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - contact-details
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-contact-details-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-custom-data-fields-api
+  name: HappyOrNot custom-data-fields API
+  description: Endpoints and data definitions related to custom data fields
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - custom-data-fields
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-custom-data-fields-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-demographics-api
+  name: HappyOrNot demographics API
+  description: Demographics data endpoints and data definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - demographics
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-demographics-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-experience-points-api
+  name: HappyOrNot experience-points API
+  description: Experience points and groups related endpoints and data definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - experience-points
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-experience-points-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-follow-up-feedbacks-api
+  name: HappyOrNot follow-up-feedbacks API
+  description: Follow-up feedback related endpoints and data definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - follow-up-feedbacks
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-follow-up-feedbacks-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-follow-up-option-localizations-api
+  name: HappyOrNot follow-up-option-localizations API
+  description: >-
+    Endpoints and data definitions related to localizations for selectable options for follow ups in surveys
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - follow-up-option-localizations
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-follow-up-option-localizations-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-follow-up-options-api
+  name: HappyOrNot follow-up-options API
+  description: Endpoints and data definitions related to selectable options for follow ups in surveys
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - follow-up-options
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-follow-up-options-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-follow-up-question-localizations-api
+  name: HappyOrNot follow-up-question-localizations API
+  description: >-
+    Endpoints and data definitions related to localizations for questions used for follow ups in surveys
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - follow-up-question-localizations
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-follow-up-question-localizations-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-follow-up-questions-api
+  name: HappyOrNot follow-up-questions API
+  description: Endpoints and data definitions related to questions used for follow ups in surveys
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - follow-up-questions
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-follow-up-questions-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-metadata-api
+  name: HappyOrNot metadata API
+  description: Metadata related endpoints and daa definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-question-localizations-api
+  name: HappyOrNot question-localizations API
+  description: Endpoints and data definitions related to localizations for question used in surveys
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - question-localizations
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-question-localizations-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-questions-api
+  name: HappyOrNot questions API
+  description: Endpoints and data definitions related to questions used in surveys
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - questions
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-questions-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-smileys-api
+  name: HappyOrNot smileys API
+  description: Endpoints and data definitions related to smileys
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - smileys
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-smileys-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-surveys-api
+  name: HappyOrNot surveys API
+  description: Surveys related endpoints and data definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - surveys
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-surveys-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-text-feedbacks-api
+  name: HappyOrNot text-feedbacks API
+  description: Text feedback related endpoints and data definitions
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - text-feedbacks
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-text-feedbacks-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-token-introspection-api
+  name: HappyOrNot token-introspection API
+  description: Token introspection including token scopes
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - token-introspection
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-token-introspection-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
+- aid: happyornot:happyornot-users-api
+  name: HappyOrNot users API
+  description: Endpoints and data definitions related to users
+  humanURL: https://api.happy-or-not.com/v2/
+  baseURL: https://api.happy-or-not.com/v2/
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/happyornot-users-api-openapi.yml
+  - type: Documentation
+    url: https://happyornot.github.io/docs/
+  - type: APIReference
+    url: https://api.happy-or-not.com/v2/
+  - type: Authentication
+    url: authentication/happyornot-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: OpenAPI
+  url: openapi/happyornot-openapi-original.yml
+- type: Overlay
+  url: overlays/happyornot-openapi-overlay.yaml
+- type: Authentication
+  url: authentication/happyornot-authentication.yml
+- type: DomainSecurity
+  url: security/happyornot-domain-security.yml
+- type: Conventions
+  url: conventions/happyornot-conventions.yml
+- type: ErrorCatalog
+  url: errors/happyornot-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/happyornot-lifecycle.yml
+- type: Deprecation
+  url: https://happyornot.github.io/docs/api-v1/
+- type: ChangeLog
+  url: changelog/happyornot-changelog.yml
+- type: DataModel
+  url: data-model/happyornot-data-model.yml
+- type: Conformance
+  url: conformance/happyornot-conformance.yml
+- type: MCPServer
+  url: mcp/happyornot-mcp.yml
+- type: Packages
+  url: packages/happyornot-packages.yml
+- type: LLMsTxt
+  url: llms/happyornot-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Arazzo
+  name: Resolve an experience point and fetch its button feedback
+  url: arazzo/happyornot-fetch-feedback.yml
+- type: Arazzo
+  name: Monitor HappyOrNot alerts
+  url: arazzo/happyornot-monitor-alerts.yml
+- type: WellKnown
+  url: well-known/happyornot-well-known.yml
+- type: DeveloperPortal
+  url: https://happyornot.github.io/docs/
+- type: Documentation
+  url: https://happyornot.github.io/docs/
+- type: APIReference
+  url: https://api.happy-or-not.com/v2/
+- type: GettingStarted
+  url: https://happyornot.github.io/docs/
+- type: Support
+  url: https://support.happy-or-not.com/
+- type: Blog
+  url: https://www.happy-or-not.com/en/resources/blog/
+- type: GitHubOrganization
+  url: https://github.com/happyornot
+- type: Pricing
+  url: https://www.happy-or-not.com/en/pricing/
+- type: SignUp
+  url: https://reporting.happy-or-not.com/
+- type: TermsOfService
+  url: https://www.happy-or-not.com/en/terms/
+- type: PrivacyPolicy
+  url: https://www.happy-or-not.com/en/privacy-policy/
 - type: Website
-  url: http://happy-or-not.com
+  url: https://www.happy-or-not.com
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

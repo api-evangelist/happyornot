@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: searched
+source: https://support.happy-or-not.com/s/article/HappyOrNot-API-FAQ
+versioning:
+  scheme: uri-path
+  current: v2
+  base_url: https://api.happy-or-not.com/v2/
+  docs: https://happyornot.github.io/docs/
+deprecation:
+  deprecated_version: v1
+  policy: API v1 has been superseded by v2 and is documented as legacy; v1 tokens and interfaces are not
+    interchangeable with v2 (breaking, no backward compatibility).
+  docs: https://happyornot.github.io/docs/api-v1/
+  superseded_by: https://api.happy-or-not.com/v2/
+release_notes: https://tl919slq65.execute-api.eu-west-1.amazonaws.com/
+sla: null
+status_page: null
+deprecated_operations: []

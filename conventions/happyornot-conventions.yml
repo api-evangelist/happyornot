@@ -1,0 +1,50 @@
+generated: '2026-07-19'
+method: searched
+source: https://api.happy-or-not.com/v2/openapi.yaml
+authentication:
+  style: api-token
+  header: X-HON-API-Token
+  query_alt: auth
+  ref: authentication/happyornot-authentication.yml
+idempotency:
+  supported: false
+  note: API is read-only (all GET); no idempotency-key contract.
+pagination:
+  style: offset-limit
+  params:
+    offset: integer, default 0
+    limit: integer, default 1000, max 10000
+  more_indicator: X-More-Available response header (true|false)
+formats:
+  style: path-extension
+  values:
+  - json
+  - csv
+  example: /experience-points.json
+  csv_separator_param: separator
+filtering:
+  time:
+    period: period param (today|yesterday|this-week|...|YYYY|YYYY-MM|YYYY-qN)
+    range:
+    - startDate
+    - endDate
+  scope:
+  - surveyId
+  - experiencePointId
+  flags:
+  - includeMisuse
+  - includeSpam
+ordering:
+  param: order
+  values:
+  - asc
+  - desc
+  default: asc
+error_envelope:
+  style: http-status-only
+  ref: errors/happyornot-problem-types.yml
+rate_limits:
+  documented: false
+  note: token issuance is package-limited; no per-request rate limit published
+versioning:
+  ref: lifecycle/happyornot-lifecycle.yml

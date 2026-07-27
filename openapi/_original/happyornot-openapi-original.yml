@@ -1,0 +1,1719 @@
+openapi: 3.1.0
+info:
+  title: HappyOrNot Customer API v2
+  description: |
+    ### HappyOrNot Customer API v2 is designed for
+    * fetching feedbacks of all type (button, followups, text, demographics, contact details)
+    * fetching information about experience points, surveys and other
+      metadata related to fetching and displaying feedback
+    * fetching information about users of HappyOrNot Analytics
+    * fetching information about smileys, that is the physical devices or digital tokens for feedback gathering
+
+    ### Useful links:
+    * [HappyOrNot website](https://www.happy-or-not.com)
+    * [HappyOrNot Analytics](https://reporting.happy-or-not.com)
+
+    ### Base URL for API calls:
+    https://api.happy-or-not.com/v2/<br>
+    Example:<br>
+    https://api.happy-or-not.com/v2/experience-points.json
+
+    ### Entities explained
+    **Experience point** = Represents a point of interaction for feedback gathering.<br>
+    Can represent a physical location, e.g. "London Store 1" or a digital location, e.g. "Webshop checkout".<br>
+    **Group** = Represents a grouping of experience points. Grouping can be e.g. geographical or organizational.<br>
+    Examples are countries, cities or organization functions.<br>
+    Groups and Experience points form a hierarchical tree structure, see example below.<br>
+    **Survey** = Time-bounded surveys that contain a question and are associated with one or more experience points.<br>
+    **Question** = Localizable questions are associated to surveys, e.g. "How was the service?"<br>
+    **Smiley** = Physical or digital "device" that collect feedback. Smiley is associated with an experience point.<br>
+    Types of smileys are Smiley Terminal, Smiley Touch and Smiley Digital.<br>
+    **User** = User account of HappyOrNot Analytics, identified by email address and name. Has an associated role and data access.<br>
+    <br>
+    **Example for group / experience point hierarchy:**<br>
+    <pre>
+    * Company X <- this is root group and parent of Finland and Sweden
+      * Finland  <- this group is parent for Helsinki and Tampere store experience points
+        * Helsinki store <- this is an experience point
+        * Tampere store <- this is an experience point
+      * Sweden <- this group is parent for Stockholm and Malmö store experience points
+        * Stockholm store <- this is an experience point
+        * Malmö store <- this is an experience point
+    </pre>
+    ### Feedback types explained
+    **Button Feedback** = The feedback type that is always present in surveys.<br>
+    Visually represented as 4 or 5 smiley faces or NPS scale (0..10).<br>
+    **Followup Feedback** = Predefined set of selectable textual values (max 6) to explain the button feedback given.<br>
+    **Text Feedback** = Freeform text feedback. Available in Smileys that support keyboard input.<br>
+    **Demographics** = AI based estimate on feedback giver's age and gender. Supported by Smiley Touch only.<br>
+    **Contact Details** = If a feedback giver wants to get contacted, name and email or phone number can be given.<br>
+    **Metadata** = Arbitrary set of key-value pairs related to this particular feedback.
+
+    ### Entity Relationships Diagrams
+    <img alt="Entity Relationships Diagram" src="er-diagram.svg"/>
+    <img alt="Entity Relationships Diagram for feedbacks" src="er-diagram-feedbacks.svg"/>
+
+    ### Authentication/Authorisation
+    Authentication and authorisation is based on a *token*.
+    You can generate API v2 tokens in your *Organization Settings* page at HappyOrNot Analytics (you need to have Admin privileges to access that page).
+    You should provide a token with a request in one of the two ways:<br>
+    * Request Header *X-HON-API-Token*. E.g. X-HON-API-Token: your-token-here (Suggested way)
+    * Query string parameter *auth*. E.g. /v2/experience-points.json?auth=your-token-here (Ok for testing)<br>
+
+    #### Token introspection
+    For a valid authenticated token it is possible to requests metadata, including token id, name and scopes.
+
+    ### Paging:
+    Paging of responses is controlled using *offset* and *limit* parameters.<br>
+    HTTP response header *X-More-Available* (value "true" or "false") can be used to determine if more data is available.<br>
+    Example:<br>
+    https://api.happy-or-not.com/v2/alerts.json?offset=0&limit=500<br>
+    <br>
+    HTTP response header *Link* is provided (if above described X-More-Available: true) and it includes the link to next page of results.<br>
+    Example:<br>
+    Link: <https://api.happy-or-not.com/v2/alerts.json?offset=500&limit=500>; rel="next"<br>
+
+    ### Terms mapping between API v1 and API v2
+    <pre>
+    API v1			API v2
+    -----------------------------------------------------------------------
+    N/A			Token Introspection
+    Results/Rawresults	Button Feedbacks
+    Results/Rawresults	Follow-up Feedbacks
+    Results/Rawresults	Text Feedbacks
+    N/A			Demographics
+    N/A			Contact Details
+    N/A                     Metadata
+    Folders/Children	Groups and Experience Points
+    Surveys			No direct mapping available, but v1 surveys are mappings of v2 Experience Points to v2 Surveys
+    Questions		Surveys
+    N/A 			Question
+    N/A			Follow-up questions
+    N/A			Follow-up options
+    Alerts			Alerts
+    N/A			Alert Specifications
+    N/A			Alert Comments
+    N/A			Users
+    N/A			Smileys
+    N/A			Custom Data Fields
+    N/A			All localizations
+    </pre>
+    <br>
+
+    ### Need help?
+    Please email support@happy-or-not.com to get more assistance.
+
+  termsOfService: https://www.happy-or-not.com/terms/
+  contact:
+    email: api@happy-or-not.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: "2.0"
+externalDocs:
+  description: More about HappyOrNot APIs
+  url: https://happyornot.github.io/docs/api/
+servers:
+  - url: https://api.happy-or-not.com/v2
+tags:
+  - name: token-introspection
+    description: Token introspection including token scopes
+  - name: button-feedbacks
+    description: Button feedback related endpoints and data definitions
+  - name: follow-up-feedbacks
+    description: Follow-up feedback related endpoints and data definitions
+  - name: text-feedbacks
+    description: Text feedback related endpoints and data definitions
+  - name: demographics
+    description: Demographics data endpoints and data definitions
+  - name: contact-details
+    description: Contact details data endpoints and data definitions
+  - name: metadata
+    description: Metadata related endpoints and daa definitions
+  - name: experience-points
+    description: Experience points and groups related endpoints and data definitions
+  - name: surveys
+    description: Surveys related endpoints and data definitions
+  - name: questions
+    description: Endpoints and data definitions related to questions used in surveys
+  - name: question-localizations
+    description: Endpoints and data definitions related to localizations for question used in surveys
+  - name: follow-up-questions
+    description: Endpoints and data definitions related to questions used for follow ups in surveys
+  - name: follow-up-question-localizations
+    description: Endpoints and data definitions related to localizations for questions used for follow ups in surveys
+  - name: follow-up-options
+    description: Endpoints and data definitions related to selectable options for follow ups in surveys
+  - name: follow-up-option-localizations
+    description: Endpoints and data definitions related to localizations for selectable options for follow ups in surveys
+  - name: alert-specifications
+    description: Endpoints and data definitions related to alert specifications based on which alerts are triggered
+  - name: alerts
+    description: Endpoints and data definitions related to alerts which have been triggered by incoming feedback, based on alert specfications
+  - name: alert-comments
+    description: Endpoints and data definitions related to alert comments which have been written for alerts
+  - name: users
+    description: Endpoints and data definitions related to users
+  - name: smileys
+    description: Endpoints and data definitions related to smileys
+  - name: custom-data-fields
+    description: Endpoints and data definitions related to custom data fields
+paths:
+  'token/introspect':
+    get:
+      tags:
+        - token-introspection
+      summary: Get token metadata
+      description: |
+        Returns metadata about the provided token, including its status, ID, name, and scopes.
+        This endpoint is only available to the token's owner. Intended for self-service token management.
+      responses:
+        '200':
+          description: Token is active and valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenIntrospection'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+  '/results/button-feedbacks.{format}':
+    get:
+      tags:
+        - button-feedbacks
+      summary: List button feedbacks
+      description: List button feedbacks that match the given parameters
+      operationId: listButtonFeedbacks
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/includeMisuseParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: successful button feedback listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ButtonFeedback'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching ButtonFeedback object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/results/follow-up-feedbacks.{format}':
+    get:
+      tags:
+        - follow-up-feedbacks
+      summary: List follow-up feedbacks
+      description: List follow-up feedbacks that match the given parameters
+      operationId: listFollowupFeedbacks
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/includeMisuseParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: successful follow-up feedback listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FollowupFeedback'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching FollowupFeedback object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/results/text-feedbacks.{format}':
+    get:
+      tags:
+        - text-feedbacks
+      summary: List text feedbacks
+      description: List text feedbacks that match the given parameters
+      operationId: listTextFeedbacks
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/includeMisuseParam'
+        - $ref: '#/components/parameters/includeSpamParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: successful text feedback listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TextFeedback'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching TextFeedback object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'  
+  '/results/demographics.{format}':
+    get:
+      tags:
+        - demographics
+      summary: List demographics information
+      description: List demographics (age, gender) related to feedback that match the given parameters
+      operationId: listDemographics
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/includeMisuseParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: successful demographics listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Demographics'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching Demographics object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'  
+  '/results/contact-details.{format}':
+    get:
+      tags:
+        - contact-details
+      summary: List contact details information
+      description: List contact details (name, email/phone number) related to feedback that match the given parameters
+      operationId: listContactDetails
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/includeMisuseParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: successful contact details listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContactDetails'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching ContactDetails object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/results/metadata.{format}':
+    get:
+      tags:
+        - metadata
+      summary: List feedback metadata
+      description: List metadata related to feedback that match the given parameters
+      operationId: listMetadata
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/includeMisuseParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: successful metadata listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Metadata'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching Metadata object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/experience-points.{format}':
+    get:
+      tags:
+        - experience-points
+      summary: List experience points and groups
+      description: Tree of groups and experience points in tabular format
+      operationId: listExperiencePoints
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - name: rootExperiencePointId
+          in: query
+          description: Root exp. point id, if omitted, all authorised groups and exp.points are returned
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: Only items of given type are returned, if omitted, all authorised groups and exp.points are returned
+          required: false
+          schema:
+            type: string
+            enum: [GROUP, EXPERIENCE_POINT]
+      responses:
+        '200':
+          description: successful experience point listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExperiencePoint'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching ExperiencePoint object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/experience-point-custom-data.{format}':
+    get:
+      tags:
+        - custom-data-fields
+      summary: List custom data fields for experience point
+      description: Experience point's or tree of experience point's custom data fields in list format
+      operationId: listCustomDataFields
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - name: experiencePointId
+          in: query
+          description: Exp. point id, if omitted, uses rootExperiencePointId
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: rootExperiencePointId
+          in: query
+          description: Root exp. point id, if omitted and no experiencePoint id is provided returns every custom data field
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful custom data field listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomDataField'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching CustomDataField object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/company-custom-data.{format}':
+    get:
+      tags:
+        - custom-data-fields
+      summary: List custom data fields for company
+      description: company's custom data fields and labels in list format
+      operationId: listCompanyCustomDataFields
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful company custom data field listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyCustomDataField'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching CompanyCustomDataField object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/surveys.{format}':
+    get:
+      tags:
+        - surveys
+      summary: List surveys
+      description: List of all surveys 
+      operationId: listSurveys
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful survey listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Survey'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching Survey object properties 
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'  
+  '/questions.{format}':
+    get:
+      tags:
+        - questions
+      summary: List questions
+      description: List of all questions 
+      operationId: listQuestions
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful question listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching Question object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'  
+  '/question-localizations.{format}':
+    get:
+      tags:
+        - question-localizations
+      summary: List question localizations
+      description: List of all question localizations 
+      operationId: listQuestionLocalizations
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - name: questionId
+          in: query
+          description: list question localizations only for given question
+          required: false
+          schema:
+            type: integer
+            format: int64      
+      responses:
+        '200':
+          description: successful question localization listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestionLocalization'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching QuestionLocalization object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'  
+  '/follow-up-questions.{format}':
+    get:
+      tags:
+        - follow-up-questions
+      summary: List follow-up questions
+      description: List of all follow-up questions 
+      operationId: listFollowupQuestions
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful follow-up question listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FollowupQuestion'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching FollowupQuestion object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/follow-up-question-localizations.{format}':
+    get:
+      tags:
+        - follow-up-question-localizations
+      summary: List follow-up question localizations
+      description: List of all follow-up question localizations
+      operationId: listFollowupQuestionLocalizations
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - name: followupQuestionId
+          in: query
+          description: list follow-up question localizations only for given follow-up question
+          required: false
+          schema:
+            type: integer
+            format: int64      
+      responses:
+        '200':
+          description: successful follow-up question localization listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FollowupQuestionLocalization'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching FollowupQuestionLocalization object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/follow-up-options.{format}':
+    get:
+      tags:
+        - follow-up-options
+      summary: List follow-up options
+      description: List of all follow-up options
+      operationId: listFollowupOptions
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful follow-up option listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FollowupOption'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching FollowupOption object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/follow-up-option-localizations.{format}':
+    get:
+      tags:
+        - follow-up-option-localizations
+      summary: List follow-up option localizations
+      description: List of all follow-up option localizations
+      operationId: listFollowupOptionLocalizations
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - name: followupOptionId
+          in: query
+          description: list localizations only for given follow-up option
+          required: false
+          schema:
+            type: integer
+            format: int64      
+      responses:
+        '200':
+          description: successful follow-up option localization listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FollowupOptionLocalization'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching FollowupOptionLocalization object properties  
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/alerts.{format}':
+    get:
+      tags:
+        - alerts
+      summary: List alerts
+      description: List of all alerts
+      operationId: listAlerts
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+      responses:
+        '200':
+          description: successful alert listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alert'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching Alert object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/alert-comments.{format}':
+    get:
+      tags:
+        - alert-comments
+      summary: List alert comments
+      description: List of all alert comments
+      operationId: listAlertComments
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+        - $ref: '#/components/parameters/surveyIdParam'
+        - $ref: '#/components/parameters/experiencePointIdParam'
+        - $ref: '#/components/parameters/periodParam'
+        - $ref: '#/components/parameters/startDateParam'
+        - $ref: '#/components/parameters/endDateParam'
+        - $ref: '#/components/parameters/pagingOffsetParam'
+        - $ref: '#/components/parameters/pagingLimitParam'
+      responses:
+        '200':
+          description: successful alert comment listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlertComment'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching AlertComment object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/alert-specifications.{format}':
+    get:
+      tags:
+        - alert-specifications
+      summary: List alert specifications
+      description: List of all alert specifications
+      operationId: listAlertSpecifications
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful alert specification listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlertSpecification'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching AlertSpecification object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/users.{format}':
+    get:
+      tags:
+        - users
+      summary: List users
+      description: List of all users
+      operationId: listUsers
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful user listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching User object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+  '/smileys.{format}':
+    get:
+      tags:
+        - smileys
+      summary: List smileys
+      description: List of all smileys
+      operationId: listSmileys
+      parameters:
+        - $ref: '#/components/parameters/formatParam'
+        - $ref: '#/components/parameters/csvSeparatorParam'
+      responses:
+        '200':
+          description: successful smileys listing
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Smiley'
+            text/csv:
+              schema:
+                type: string
+                description: CSV file with columns matching Smiley object properties
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+security:
+  - ApiTokenAuth: []
+  - ApiTokenViaQueryStringAuth: []
+components:
+  parameters:
+    formatParam:
+      name: format
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [json,csv]
+    csvSeparatorParam:
+      name: csvSeparator
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1
+        default: ","
+      description: Applied only for CSV responses
+    surveyIdParam:
+      name: surveyId
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int64
+      description: Survey id that might have been acquired by using the /surveys endpoint
+    experiencePointIdParam:
+      name: experiencePointId
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int64
+      description: Experience point id that might have been acquired by using the /experience-points endpoint
+    periodParam:
+      name: period
+      in: query
+      required: false
+      schema:
+        type: string
+        pattern: '^(today|yesterday|this-week|last-week|this-month|last-month|this-year|last-year|\d{4}(-(0[1-9]|1[0-2]|q[1-4]))?)$'
+      description: If both period parameter and startDate/endDate are given, latter takes precedence. Week start is always Monday.
+      example: today,last-year,2023-12,2023-q3
+    startDateParam:
+      name: startDate
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      description: Inclusive start date. Defaults to current date. NOTE! startDate->endDate max interval is 1 year.
+      example: 2023-09-26
+    endDateParam:
+      name: endDate
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      description: Exclusive end date. Defaults to tomorrow. NOTE! startDate->endDate max interval is 1 year.
+      example: 2023-09-27
+    includeMisuseParam:
+      name: includeMisuse
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: If true, also feedback that has been deemed misuse will be included in the response.
+    includeSpamParam:
+      name: includeSpam
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: true
+      description: If true, also feedback that has been deemed spam will be included in the response.
+    pagingOffsetParam:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      description: Paging parameter to determine the index of the first item from the whole result set matching the search criteria.
+    pagingLimitParam:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 10000
+        default: 1000
+      description: Paging parameter to determine the maximum size of the result set matching the search criteria.
+    orderParam:
+      name: order
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [desc,asc]
+        default: asc
+      description: Order parameter to sort feedbacks by time.
+  schemas:
+    TokenIntrospection:
+      type: object
+      required:
+        - token_id
+        - token_name
+        - scopes
+      properties:
+        token_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the token.
+        token_name:
+          type: string
+          description: Human-readable name of the token.
+        scopes:
+          type: array
+          items:
+            type: string
+          description: List of scopes granted to the token.
+    ButtonFeedback:
+      type: object
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        smileyId:
+          type: integer
+          format: int64
+        localTime:
+          type: string
+          format: date-time
+          description: Time the feedback was given, in the time zone of the experience point in the survey
+        surveyId:
+          type: integer
+          format: int64                
+        experiencePointId:
+          type: integer
+          format: int64
+        buttonIndex:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: Smaller value means more negative response. Possible values for four scale 0-3, five scale 0-4, NPS 0-10.
+        misuse:
+          type: boolean
+          description: If true, the feedback was deemed to be misuse
+        position:
+          type: integer                                
+          minimum: 0
+          description: Position in the survey flow. Always 0 for button feedback, because this is always first.
+        ui:
+          type: string
+          enum: [physical,digital,touchless,qr,link,email]
+        smileyType:
+          type: string
+          enum: [SMILEY_TERMINAL,SMILEY_TOUCH,SMILEY_DIGITAL]
+      required:
+        - feedbackId
+        - smileyId
+        - localTime
+        - surveyId
+        - experiencePointId
+        - buttonIndex
+        - misuse
+        - position
+        - smileyType
+    FollowupFeedback:
+      type: object
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        smileyId:
+          type: integer
+          format: int64
+        localTime:
+          type: string
+          format: date-time
+          description: Time the feedback was given, in the time zone of the experience point in the survey
+        surveyId:
+          type: integer
+          format: int64                
+        experiencePointId:
+          type: integer
+          format: int64
+        buttonIndex:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: buttonIndex that was given at button feedback phase. Available here for convenience. See details from Button Feedback docs.
+        misuse:
+          type: boolean
+          description: If true, the feedback was deemed to be misuse
+        position:
+          type: integer
+          minimum: 0
+          description: Position in the survey flow. 0 being the first phase.
+        ui:
+          type: string
+          enum: [physical,digital,exit,skip,timeout,touchless,qr,link,email]
+        smileyType:
+          type: string
+          enum: [SMILEY_TERMINAL,SMILEY_TOUCH,SMILEY_DIGITAL]
+        followupQuestionId:
+          type: integer
+          format: int64
+        followupOptionId:
+          type: integer
+          format: int64
+        followupOptionTextInDefaultLocale:
+          type: string
+      required:
+        - feedbackId
+        - smileyId
+        - localTime
+        - surveyId
+        - experiencePointId
+        - buttonIndex
+        - misuse
+        - position
+        - smileyType
+        - followupOptionId
+    TextFeedback:
+      type: object
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        smileyId:
+          type: integer
+          format: int64
+        localTime:
+          type: string
+          format: date-time
+          description: Time the feedback was given, in the time zone of the experience point in the survey
+        surveyId:
+          type: integer
+          format: int64                
+        experiencePointId:
+          type: integer
+          format: int64
+        buttonIndex:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: buttonIndex that was given at button feedback phase. Available here for convenience. See details from Button Feedback docs.
+        misuse:
+          type: boolean
+          description: If true, the feedback was deemed to be misuse
+        position:
+          type: integer
+          minimum: 0
+          description: Position in the survey flow. 0 being the first phase.
+        ui:
+          type: string
+          enum: [physical,digital,exit,skip,timeout,touchless,qr,link,email]
+        smileyType:
+          type: string
+          enum: [SMILEY_TERMINAL,SMILEY_TOUCH,SMILEY_DIGITAL]
+        text:
+          type: string
+        maskedText:
+          type: string
+        rephrasedText:
+          type: string
+        textInEnglish:
+          type: string
+        spam:
+          type: boolean
+          description: If true, the text feedback contents was deemed to be spam
+        categories:
+          type: string
+          description: comma separated list of open feedback categories automatically applied by HappyOrNot AI
+          example: relevant,room for improvement
+        themes:
+          type: string
+          description: comma separated list of relevant open feedback themes automatically applied by HappyOrNot AI. Themes are specific for a survey type (customer experience and employee experience). The list is alphabetically ordered with `other` last when present. The list is empty when theme analysis is not available.
+          example: friendliness,quality,other
+      required:
+        - feedbackId
+        - smileyId
+        - localTime
+        - surveyId
+        - experiencePointId
+        - buttonIndex
+        - misuse
+        - position
+        - smileyType
+        - text
+        - textInEnglish
+        - spam
+        - categories
+        - themes
+    Demographics:
+      type: object
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        smileyId:
+          type: integer
+          format: int64
+        localTime:
+          type: string
+          format: date-time
+          description: Time the feedback was given, in the time zone of the experience point in the survey
+        surveyId:
+          type: integer
+          format: int64                
+        experiencePointId:
+          type: integer
+          format: int64
+        buttonIndex:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: buttonIndex that was given at button feedback phase. Available here for convenience. See details from Button Feedback docs.
+        misuse:
+          type: boolean
+          description: If true, the feedback was deemed to be misuse
+        smileyType:
+          type: string
+          enum: [SMILEY_TERMINAL,SMILEY_TOUCH,SMILEY_DIGITAL]
+        gender:
+          type: string
+          enum: [male,female]
+        age:
+          type: integer
+      required:
+        - feedbackId
+        - smileyId
+        - localTime
+        - surveyId
+        - experiencePointId
+        - buttonIndex
+        - misuse
+        - smileyType
+    ContactDetails:
+      type: object
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        smileyId:
+          type: integer
+          format: int64
+        localTime:
+          type: string
+          format: date-time
+          description: Time the feedback was given, in the time zone of the experience point in the survey
+        surveyId:
+          type: integer
+          format: int64                
+        experiencePointId:
+          type: integer
+          format: int64
+        buttonIndex:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: buttonIndex that was given at button feedback phase. Available here for convenience. See details from Button Feedback docs.
+        misuse:
+          type: boolean
+          description: If true, the feedback was deemed to be misuse
+        position:
+          type: integer                                
+          minimum: 0
+          description: Position in the survey flow. 0 being the first phase.
+        smileyType:
+          type: string
+          enum: [SMILEY_TERMINAL,SMILEY_TOUCH,SMILEY_DIGITAL]
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: test@example.com
+        phoneNumber:
+          type: string
+          example: +358401234567
+      required:
+        - feedbackId
+        - smileyId
+        - localTime
+        - surveyId
+        - experiencePointId
+        - buttonIndex
+        - misuse
+        - position
+        - smileyType
+        - name
+    Metadata:
+      type: object
+      properties:
+        feedbackId:
+          type: string
+          format: uuid
+        smileyId:
+          type: integer
+          format: int64
+        localTime:
+          type: string
+          format: date-time
+          description: Time the feedback was given, in the time zone of the experience point in the survey
+        surveyId:
+          type: integer
+          format: int64
+        experiencePointId:
+          type: integer
+          format: int64
+        buttonIndex:
+          type: integer
+          minimum: 0
+          maximum: 10
+          description: buttonIndex that was given at button feedback phase. Available here for convenience. See details from Button Feedback docs.
+        misuse:
+          type: boolean
+          description: If true, the feedback was deemed to be misuse
+        smileyType:
+          type: string
+          enum: [SMILEY_TERMINAL,SMILEY_TOUCH,SMILEY_DIGITAL]
+        key:
+          type: string
+          example: refId
+        value:
+          type: string
+          example: ABCD1234
+      required:
+        - feedbackId
+        - smileyId
+        - localTime
+        - surveyId
+        - experiencePointId
+        - buttonIndex
+        - misuse
+        - smileyType
+        - key
+        - value
+    ExperiencePoint:
+      type: object
+      properties:
+        experiencePointId:
+          type: integer
+        name:
+          type: string
+        parent:
+          type: integer
+        type:
+          type: string
+          enum: [GROUP, EXPERIENCE-POINT]
+      required:
+        - experiencePointId
+        - name
+        - type
+    CompanyCustomDataField:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        type:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - label
+        - type
+    CustomDataField:
+      type: object
+      properties:
+        experiencePointId:
+          type: integer
+        label:
+          type: string
+        value:
+          type: string
+      required:
+        - experiencePointId
+        - label
+    Survey:
+      type: object
+      properties:
+        surveyId:
+          type: integer
+          format: int64
+        questionId:
+          type: integer
+          format: int64
+        defaultLocale:
+          type: string
+          pattern: '^[a-z]{2}(_[A-Z]{2})?$'
+          example: en_US
+        questionTextInDefaultLocale:
+          type: string
+          example: 'How was the service?'
+        surveyType:
+          type: string
+          enum: [CUSTOMER, EMPLOYEE]
+        feedbackScale:
+          type: string
+          enum: [four, five, five_reversed, nps]
+        indexType:
+          type: string
+          enum: [HAPPY, NPS, NPS_OFFICIAL, AVERAGE]
+        state:
+          type: string
+          enum: [active,ended,upcoming]
+      required:
+        - surveyId
+        - questionId
+        - defaultLocale
+        - questionTextInDefaultLocale
+        - surveyType
+        - feedbackScale
+        - indexType
+        - state
+    Question:
+      type: object
+      properties:
+        questionId:
+          type: integer
+          format: int64
+        defaultLocale:
+          type: string
+          pattern: '^[a-z]{2}(_[A-Z]{2})?$'
+          example: en_US
+        questionTextInDefaultLocale:
+          type: string
+          example: 'How was the service?'
+      required:
+        - questionId
+        - defaultLocale
+        - questionTextInDefaultLocale
+    QuestionLocalization:
+      type: object
+      properties:
+        questionId:
+          type: integer
+          format: int64
+        locale:
+          type: string
+          pattern: '^[a-z]{2}(_[A-Z]{2})?$'
+          example: en_US
+        text:
+          type: string
+          example: How was the service?
+      required:
+        - questionId
+        - locale
+        - text
+    FollowupQuestion:
+      type: object
+      properties:
+        followupQuestionId:
+          type: integer
+          format: int64
+        surveyId:
+          type: integer
+          format: int64
+        positive:
+          type: boolean
+        questionTextInDefaultLocale:
+          type: string
+          example: 'What was particularly good?'
+          description: NOTE! This might be empty if default locale has been changed
+      required:
+        - followupQuestionId
+        - surveyId
+        - positive
+    FollowupQuestionLocalization:
+      type: object
+      properties:
+        followupQuestionId:
+          type: integer
+          format: int64
+        locale:
+          type: string
+          pattern: '^[a-z]{2}(_[A-Z]{2})?$'
+          example: en_US
+        text:
+          type: string
+      required:
+        - followupQuestionId
+        - locale
+        - text
+    FollowupOption:
+      type: object
+      properties:
+        followupOptionId:
+          type: integer
+          format: int64
+        followupQuestionId:
+          type: integer
+          format: int64
+        optionTextInDefaultLocale:
+          type: string
+          description: NOTE! This might be empty if default locale has been changed
+      required:
+        - followupOptionId
+        - followupQuestionId
+    FollowupOptionLocalization:
+      type: object
+      properties:
+        followupOptionId:
+          type: integer
+          format: int64
+        locale:
+          type: string
+          pattern: '^[a-z]{2}(_[A-Z]{2})?$'
+          example: en_US
+        text:
+          type: string
+      required:
+        - followupOptionId
+        - locale
+        - text
+    Alert:
+      type: object
+      properties:
+        alertId:
+          type: integer
+          format: int64
+        alertSpecificationId:
+          type: integer
+          format: int64
+        surveyId:
+          type: integer
+          format: int64
+        experiencePointId:
+          type: integer
+          format: int64
+        beginTime:
+          type: string
+          format: date-time
+          description: Time when alert was triggered, in experience point's local time
+        endTime:
+          type: string
+          format: date-time
+          description: Time when alert was closed, in experience point's local time. If empty, alert is still open.
+        alertSpecificationType:
+          type: string
+          enum: [negative, feedbackCount, indexThreshold]
+        parameters:
+          type: string
+          pattern: '^(\w+=[\w,]*)( \w+=[\w,]*)*$'
+          example: 'key1=value1 key2=value2 key3=value3a,value3b'
+        acknowledged:
+          type: boolean
+          description: Is the alert acknowledged or not
+        acknowledgedByUserId:
+          type: integer
+          format: int64
+          description: HappyOrNot Analytics user id who acknowledged the alert.
+        acknowledgedTime:
+          type: string
+          format: date-time
+          description: Time when alert was acknowledged, in experience point's local time.
+      required:
+        - alertId
+        - alertSpecificationId
+        - surveyId
+        - experiencePointId
+        - beginTime
+        - alertSpecificationType
+        - parameters
+        - acknowledged
+    AlertComment:
+      type: object
+      properties:
+        alertCommentId:
+          type: integer
+          format: int64
+        alertId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        time:
+          type: string
+          format: date-time
+        comment:
+          type: string
+      required:
+        - alertCommentId
+        - alertId
+        - userId
+        - time
+        - comment
+    AlertSpecification:
+      type: object
+      properties:
+        alertSpecificationId:
+          type: integer
+          format: int64
+        surveyId:
+          type: integer
+          format: int64
+        experiencePointId:
+          type: integer
+          format: int64
+        alertSpecificationType:
+          type: string
+          enum: [negative, feedbackCount, indexThreshold]
+        parameters:
+          type: string
+          pattern: '^(\w+=[\w,]*)( \w+=[\w,]*)*$'
+          example: 'key1=value1 key2=value2 key3=value3a,value3b'
+      required:
+        - alertSpecificationId
+        - surveyId
+        - experiencePointId
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        email:
+          type: string
+          format: email
+          example: test@example.com
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Doe
+        rootExperiencePointId:
+          type: integer
+          format: int64
+        role:
+          type: string
+          enum: [USER,ADMIN,PARTNER]
+        locale:
+          type: string
+          pattern: '^[a-z]{2}(_[A-Z]{2})?$'
+          example: en_US
+        loginAllowed:
+          type: boolean
+          description: Is user allowed to log in
+        loginMethod:
+          type: string
+          enum: [EMAIL_PASSWORD,SINGLE_SIGN_ON]
+        lastLogin:
+          type: string
+          format: date-time
+          description: Time in UTC of user's last login
+        created:
+          type: string
+          format: date-time
+          description: Time in UTC when user was created
+      required:
+        - userId
+        - email
+        - firstName
+        - lastName
+        - rootExperiencePointId
+        - role
+        - locale
+        - loginAllowed
+        - loginMethod
+        - created
+    Smiley:
+      type: object
+      properties:
+        smileyId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        serialNumber:
+          type: string
+        token:
+          type: string
+        smileyType:
+          type: string
+          enum: [SMILEY_TERMINAL,SMILEY_TOUCH,SMILEY_DIGITAL]
+      required:
+        - smileyId
+        - smileyType
+  responses:
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
+  securitySchemes:
+    ApiTokenAuth:
+      type: apiKey
+      in: header
+      name: X-HON-API-Token
+      description: API Tokens are managed in Organization Settings page in Analytics
+    ApiTokenViaQueryStringAuth:
+      type: apiKey
+      in: query
+      name: auth
+      description: E.g. /some/path?auth=<tokenhere>

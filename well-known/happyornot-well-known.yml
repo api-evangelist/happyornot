@@ -1,0 +1,23 @@
+generated: '2026-07-19'
+method: probed
+host: https://api.happy-or-not.com
+note: No /.well-known/ discovery documents are published on the API or marketing hosts as of this probe.
+documents:
+- path: /.well-known/security.txt
+  host: https://api.happy-or-not.com
+  status: 404
+- path: /.well-known/security.txt
+  host: https://www.happy-or-not.com
+  status: 404
+- path: /.well-known/openid-configuration
+  host: https://api.happy-or-not.com
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  host: https://api.happy-or-not.com
+  status: 404
+- path: /.well-known/api-catalog
+  host: https://api.happy-or-not.com
+  status: 404
+- path: /.well-known/ai-plugin.json
+  host: https://api.happy-or-not.com
+  status: 404

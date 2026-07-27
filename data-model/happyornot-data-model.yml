@@ -1,0 +1,158 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/happyornot-openapi-original.yml
+note: Entity-relationship graph derived from OpenAPI component schemas and their id-reference fields.
+  ExperiencePoint (with self-referential Group hierarchy) and Survey are the central entities; all feedback
+  types belong to a Smiley, Survey and ExperiencePoint.
+entities:
+- name: TokenIntrospection
+- name: ButtonFeedback
+  relationships:
+  - kind: belongs_to
+    target: Smiley
+    via: smileyId
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+- name: FollowupFeedback
+  relationships:
+  - kind: belongs_to
+    target: Smiley
+    via: smileyId
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+  - kind: belongs_to
+    target: FollowupQuestion
+    via: followupQuestionId
+  - kind: belongs_to
+    target: FollowupOption
+    via: followupOptionId
+- name: TextFeedback
+  relationships:
+  - kind: belongs_to
+    target: Smiley
+    via: smileyId
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+- name: Demographics
+  relationships:
+  - kind: belongs_to
+    target: Smiley
+    via: smileyId
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+- name: ContactDetails
+  relationships:
+  - kind: belongs_to
+    target: Smiley
+    via: smileyId
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+- name: Metadata
+  relationships:
+  - kind: belongs_to
+    target: Smiley
+    via: smileyId
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+- name: ExperiencePoint
+- name: CompanyCustomDataField
+- name: CustomDataField
+  relationships:
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+- name: Survey
+  relationships:
+  - kind: has_one
+    target: Question
+    via: questionId
+- name: Question
+- name: QuestionLocalization
+  relationships:
+  - kind: belongs_to
+    target: Question
+    via: questionId
+- name: FollowupQuestion
+  relationships:
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+- name: FollowupQuestionLocalization
+  relationships:
+  - kind: belongs_to
+    target: FollowupQuestion
+    via: followupQuestionId
+- name: FollowupOption
+  relationships:
+  - kind: belongs_to
+    target: FollowupQuestion
+    via: followupQuestionId
+- name: FollowupOptionLocalization
+  relationships:
+  - kind: belongs_to
+    target: FollowupOption
+    via: followupOptionId
+- name: Alert
+  relationships:
+  - kind: belongs_to
+    target: AlertSpecification
+    via: alertSpecificationId
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+  - kind: belongs_to
+    target: User
+    via: acknowledgedByUserId
+- name: AlertComment
+  relationships:
+  - kind: belongs_to
+    target: Alert
+    via: alertId
+  - kind: belongs_to
+    target: User
+    via: userId
+- name: AlertSpecification
+  relationships:
+  - kind: belongs_to
+    target: Survey
+    via: surveyId
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId
+- name: User
+  relationships:
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: rootExperiencePointId
+- name: Smiley
+  relationships:
+  - kind: belongs_to
+    target: ExperiencePoint
+    via: experiencePointId

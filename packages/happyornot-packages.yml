@@ -1,0 +1,16 @@
+generated: '2026-07-19'
+method: searched
+source: https://pypi.org/project/pyHappyOrNot/
+note: No first-party HappyOrNot SDK found on npm/PyPI/Maven/NuGet/RubyGems/Packagist/crates.io as of this
+  pass. The only client library located is a third-party community wrapper.
+packages:
+- language: python
+  registry: pypi
+  name: pyHappyOrNot
+  version: 0.0.3
+  url: https://pypi.org/project/pyHappyOrNot/
+  install: pip install pyHappyOrNot
+  repository: https://github.com/18F/pyHappyOrNot
+  author: V. David Zvenyach (18F)
+  official: false
+  note: Community wrapper around the HappyOrNot API; not maintained by HappyOrNot.

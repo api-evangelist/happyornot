@@ -1,0 +1,20 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/happyornot-openapi-original.yml
+format: http-status
+note: HappyOrNot Customer API v2 returns standard HTTP status codes on error with no application/problem+json
+  envelope. Derived from the OpenAPI shared error responses (BadRequestResponse/UnauthorizedResponse/ForbiddenResponse)
+  applied to every operation.
+problems:
+- status: 400
+  title: Bad request
+  detail: Bad request, possibly invalid or missing parameter values.
+  component: BadRequestResponse
+- status: 401
+  title: Not authenticated
+  detail: Missing or invalid API credentials (X-HON-API-Token header or auth query token).
+  component: UnauthorizedResponse
+- status: 403
+  title: Not authorised
+  detail: Not authorised to access the resources given in parameters with the given authentication.
+  component: ForbiddenResponse

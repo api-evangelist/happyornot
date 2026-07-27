@@ -1,0 +1,46 @@
+arazzo: 1.0.1
+info:
+  title: Monitor HappyOrNot alerts
+  version: 1.0.0
+  summary: Read alert specifications, poll triggered alerts, then read their comments.
+sourceDescriptions:
+- name: happyornot
+  url: ../openapi/happyornot-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: monitorAlerts
+  summary: List alert specifications, list triggered alerts, then list alert comments.
+  inputs:
+    type: object
+    properties:
+      period:
+        type: string
+        default: today
+  steps:
+  - stepId: listAlertSpecifications
+    operationId: listAlertSpecifications
+    parameters:
+    - name: format
+      in: path
+      value: json
+    outputs:
+      alertSpecificationId: $response.body#/0/alertSpecificationId
+  - stepId: listAlerts
+    operationId: listAlerts
+    parameters:
+    - name: format
+      in: path
+      value: json
+    - name: period
+      in: query
+      value: $inputs.period
+    outputs:
+      alertId: $response.body#/0/alertId
+  - stepId: listAlertComments
+    operationId: listAlertComments
+    parameters:
+    - name: format
+      in: path
+      value: json
+    outputs:
+      comments: $response.body
