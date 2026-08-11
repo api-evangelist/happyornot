@@ -395,7 +395,7 @@ maintainers:
   email: info@apis.io
 common:
 - type: OpenAPI
-  url: openapi/happyornot-openapi-original.yml
+  url: openapi/_original/happyornot-openapi-original.yml
 - type: Overlay
   url: overlays/happyornot-openapi-overlay.yaml
 - type: Authentication
