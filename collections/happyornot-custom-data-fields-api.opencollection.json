@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HappyOrNot Customer API v2 alert-comments custom-data-fields API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-HON-API-Token",
+      "value": "{{X-HON-API-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "custom-data-fields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List custom data fields for experience point",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2/experience-point-custom-data.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "csvSeparator",
+                "value": "",
+                "type": "query",
+                "description": "Applied only for CSV responses"
+              },
+              {
+                "name": "experiencePointId",
+                "value": "",
+                "type": "query",
+                "description": "Exp. point id, if omitted, uses rootExperiencePointId"
+              },
+              {
+                "name": "rootExperiencePointId",
+                "value": "",
+                "type": "query",
+                "description": "Root exp. point id, if omitted and no experiencePoint id is provided returns every custom data field"
+              }
+            ]
+          },
+          "docs": "Experience point's or tree of experience point's custom data fields in list format"
+        },
+        {
+          "info": {
+            "name": "List custom data fields for company",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2/company-custom-data.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "csvSeparator",
+                "value": "",
+                "type": "query",
+                "description": "Applied only for CSV responses"
+              }
+            ]
+          },
+          "docs": "company's custom data fields and labels in list format"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HappyOrNot Customer API v2 alert-comments token-introspection API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-HON-API-Token",
+      "value": "{{X-HON-API-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "token-introspection",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get token metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2token/introspect"
+          },
+          "docs": "Returns metadata about the provided token, including its status, ID, name, and scopes.\nThis endpoint is only available to the token's owner. Intended for self-service token management.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

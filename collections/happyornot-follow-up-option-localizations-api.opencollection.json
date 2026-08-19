@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HappyOrNot Customer API v2 alert-comments follow-up-option-localizations API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-HON-API-Token",
+      "value": "{{X-HON-API-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "follow-up-option-localizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List follow-up option localizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2/follow-up-option-localizations.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "csvSeparator",
+                "value": "",
+                "type": "query",
+                "description": "Applied only for CSV responses"
+              },
+              {
+                "name": "followupOptionId",
+                "value": "",
+                "type": "query",
+                "description": "list localizations only for given follow-up option"
+              }
+            ]
+          },
+          "docs": "List of all follow-up option localizations"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

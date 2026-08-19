@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HappyOrNot Customer API v2 alert-comments follow-up-question-localizations API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-HON-API-Token",
+      "value": "{{X-HON-API-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "follow-up-question-localizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List follow-up question localizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2/follow-up-question-localizations.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "csvSeparator",
+                "value": "",
+                "type": "query",
+                "description": "Applied only for CSV responses"
+              },
+              {
+                "name": "followupQuestionId",
+                "value": "",
+                "type": "query",
+                "description": "list follow-up question localizations only for given follow-up question"
+              }
+            ]
+          },
+          "docs": "List of all follow-up question localizations"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

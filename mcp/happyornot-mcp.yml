@@ -74,3 +74,9 @@ tools:
 - name: listSmileys
   description: List smileys
   source_operation: openapi/happyornot-openapi-original.yml#listSmileys
+deployment:
+  mode: none
+  verified: derived
+  tools: 22
+  checked: '2026-08-12'
+  source: catalog MCP census

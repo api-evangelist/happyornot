@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HappyOrNot Customer API v2 alert-comments experience-points API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-HON-API-Token",
+      "value": "{{X-HON-API-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "experience-points",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List experience points and groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2/experience-points.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "csvSeparator",
+                "value": "",
+                "type": "query",
+                "description": "Applied only for CSV responses"
+              },
+              {
+                "name": "rootExperiencePointId",
+                "value": "",
+                "type": "query",
+                "description": "Root exp. point id, if omitted, all authorised groups and exp.points are returned"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Only items of given type are returned, if omitted, all authorised groups and exp.points are returned"
+              }
+            ]
+          },
+          "docs": "Tree of groups and experience points in tabular format"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

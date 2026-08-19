@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HappyOrNot Customer API v2 alert-comments text-feedbacks API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-HON-API-Token",
+      "value": "{{X-HON-API-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "text-feedbacks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List text feedbacks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2/results/text-feedbacks.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "csvSeparator",
+                "value": "",
+                "type": "query",
+                "description": "Applied only for CSV responses"
+              },
+              {
+                "name": "surveyId",
+                "value": "",
+                "type": "query",
+                "description": "Survey id that might have been acquired by using the /surveys endpoint"
+              },
+              {
+                "name": "experiencePointId",
+                "value": "",
+                "type": "query",
+                "description": "Experience point id that might have been acquired by using the /experience-points endpoint"
+              },
+              {
+                "name": "period",
+                "value": "today,last-year,2023-12,2023-q3",
+                "type": "query",
+                "description": "If both period parameter and startDate/endDate are given, latter takes precedence. Week start is always Monday."
+              },
+              {
+                "name": "startDate",
+                "value": "2023-09-26",
+                "type": "query",
+                "description": "Inclusive start date. Defaults to current date. NOTE! startDate->endDate max interval is 1 year."
+              },
+              {
+                "name": "endDate",
+                "value": "2023-09-27",
+                "type": "query",
+                "description": "Exclusive end date. Defaults to tomorrow. NOTE! startDate->endDate max interval is 1 year."
+              },
+              {
+                "name": "includeMisuse",
+                "value": "",
+                "type": "query",
+                "description": "If true, also feedback that has been deemed misuse will be included in the response."
+              },
+              {
+                "name": "includeSpam",
+                "value": "",
+                "type": "query",
+                "description": "If true, also feedback that has been deemed spam will be included in the response."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Paging parameter to determine the index of the first item from the whole result set matching the search criteria."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Paging parameter to determine the maximum size of the result set matching the search criteria."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Order parameter to sort feedbacks by time."
+              }
+            ]
+          },
+          "docs": "List text feedbacks that match the given parameters"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

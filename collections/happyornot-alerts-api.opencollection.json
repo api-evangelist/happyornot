@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HappyOrNot Customer API v2 alert-comments alerts API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-HON-API-Token",
+      "value": "{{X-HON-API-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "alerts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.happy-or-not.com/v2/alerts.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "csvSeparator",
+                "value": "",
+                "type": "query",
+                "description": "Applied only for CSV responses"
+              },
+              {
+                "name": "surveyId",
+                "value": "",
+                "type": "query",
+                "description": "Survey id that might have been acquired by using the /surveys endpoint"
+              },
+              {
+                "name": "experiencePointId",
+                "value": "",
+                "type": "query",
+                "description": "Experience point id that might have been acquired by using the /experience-points endpoint"
+              },
+              {
+                "name": "period",
+                "value": "today,last-year,2023-12,2023-q3",
+                "type": "query",
+                "description": "If both period parameter and startDate/endDate are given, latter takes precedence. Week start is always Monday."
+              },
+              {
+                "name": "startDate",
+                "value": "2023-09-26",
+                "type": "query",
+                "description": "Inclusive start date. Defaults to current date. NOTE! startDate->endDate max interval is 1 year."
+              },
+              {
+                "name": "endDate",
+                "value": "2023-09-27",
+                "type": "query",
+                "description": "Exclusive end date. Defaults to tomorrow. NOTE! startDate->endDate max interval is 1 year."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Paging parameter to determine the index of the first item from the whole result set matching the search criteria."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Paging parameter to determine the maximum size of the result set matching the search criteria."
+              }
+            ]
+          },
+          "docs": "List of all alerts"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
