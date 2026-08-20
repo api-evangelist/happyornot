@@ -88,6 +88,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - Alerts
+  tags_raw:
   - alerts
   properties:
   - type: OpenAPI
@@ -136,6 +138,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - Custom Data Fields
+  tags_raw:
   - custom-data-fields
   properties:
   - type: OpenAPI
@@ -152,6 +156,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - Demographics
+  tags_raw:
   - demographics
   properties:
   - type: OpenAPI
@@ -266,6 +272,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - Metadata
+  tags_raw:
   - metadata
   properties:
   - type: OpenAPI
@@ -298,6 +306,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - Questions
+  tags_raw:
   - questions
   properties:
   - type: OpenAPI
@@ -330,6 +340,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - Surveys
+  tags_raw:
   - surveys
   properties:
   - type: OpenAPI
@@ -362,6 +374,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - Token Introspection
+  tags_raw:
   - token-introspection
   properties:
   - type: OpenAPI
@@ -378,6 +392,8 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
