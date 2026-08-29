@@ -1,0 +1,102 @@
+slug: happyornot
+provider: HappyOrNot
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Retail & Consumer Goods
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 9
+edges:
+- tag: button-feedbacks
+  spec_file: happyornot-button-feedbacks-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.92
+  evidence: 'GET /results/button-feedbacks.{format} listButtonFeedbacks "List button feedbacks"; schema
+    ButtonFeedback; vendor: "button (smiley/NPS) ratings"'
+  reason: Directly retrieves consumer smiley/NPS ratings collected at experience points — squarely surveys/NPS/voice-of-customer
+    feedback capture.
+- tag: follow-up-feedbacks
+  spec_file: happyornot-follow-up-feedbacks-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.9
+  evidence: GET /results/follow-up-feedbacks.{format} listFollowupFeedbacks "List follow-up feedbacks";
+    schema FollowupFeedback
+  reason: Retrieves respondents' follow-up survey answers — direct voice-of-customer/survey response data.
+- tag: text-feedbacks
+  spec_file: happyornot-text-feedbacks-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.88
+  evidence: GET /results/text-feedbacks.{format} listTextFeedbacks 'List text feedbacks'; schema 'TextFeedback'
+  reason: Retrieval of freeform consumer feedback responses is squarely voice-of-customer feedback management.
+- tag: surveys
+  spec_file: happyornot-surveys-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.78
+  evidence: GET /surveys.{format} listSurveys 'List surveys'; schema 'Survey'
+  reason: Survey definitions in a customer-experience feedback platform map directly to surveys/NPS/voice-of-customer
+    programmes.
+- tag: alert-comments
+  spec_file: happyornot-alert-comments-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.72
+  evidence: '"GET /alert-comments.{format} listAlertComments List alert comments"; API "designed for fetching
+    feedbacks of all type (button, followups, text, demographics, contact details)"'
+  reason: On this customer-experience feedback platform, alerts are raised from negative smiley/NPS feedback
+    and comments are the attached voice-of-customer text, so this serves customer feedback programmes
+    rather than monitoring or financial-crime alerting.
+- tag: follow-up-questions
+  spec_file: happyornot-follow-up-questions-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.72
+  evidence: GET /follow-up-questions.{format} listFollowupQuestions "List follow-up questions"; schema
+    FollowupQuestion
+  reason: Exposes the survey follow-up questions asked of consumers, i.e. the survey definition underpinning
+    voice-of-customer feedback collection.
+- tag: demographics
+  spec_file: happyornot-demographics-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.7
+  evidence: 'GET /results/demographics.{format} listDemographics "List demographics information"; vendor:
+    "AI demographics"'
+  reason: Demographic attributes are returned as part of feedback results (/results/), enriching voice-of-customer
+    data. Mapped to customer feedback management; could alternatively be read as market insight, hence
+    0.7.
+- tag: follow-up-options
+  spec_file: happyornot-follow-up-options-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.7
+  evidence: GET /follow-up-options.{format} listFollowupOptions "List follow-up options"; schema FollowupOption
+  reason: Defines the answer options of follow-up survey questions, part of the survey/voice-of-customer
+    instrument definition.
+- tag: questions
+  spec_file: happyornot-questions-api-openapi.yml
+  capability_id: BC-430.50
+  capability_id_l1: BC-430
+  capability_name: Customer Feedback Management
+  confidence: 0.7
+  evidence: 'GET /questions.{format} listQuestions ''List questions''; API description: ''fetching information
+    about experience points, surveys and other metadata related to fetching and displaying feedback'''
+  reason: Questions are the survey items asked of consumers on HappyOrNot feedback devices, part of a
+    surveys/NPS voice-of-customer programme.
