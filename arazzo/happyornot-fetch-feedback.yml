@@ -4,8 +4,14 @@ info:
   version: 1.0.0
   summary: Walk the experience-point tree, resolve surveys, then pull button feedback for a period.
 sourceDescriptions:
-- name: happyornot
-  url: ../openapi/happyornot-openapi-original.yml
+- name: buttonFeedbacksApi
+  url: ../openapi/happyornot-button-feedbacks-api-openapi.yml
+  type: openapi
+- name: experiencePointsApi
+  url: ../openapi/happyornot-experience-points-api-openapi.yml
+  type: openapi
+- name: surveysApi
+  url: ../openapi/happyornot-surveys-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: fetchButtonFeedback

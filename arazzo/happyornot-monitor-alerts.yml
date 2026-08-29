@@ -4,8 +4,14 @@ info:
   version: 1.0.0
   summary: Read alert specifications, poll triggered alerts, then read their comments.
 sourceDescriptions:
-- name: happyornot
-  url: ../openapi/happyornot-openapi-original.yml
+- name: alertCommentsApi
+  url: ../openapi/happyornot-alert-comments-api-openapi.yml
+  type: openapi
+- name: alertSpecificationsApi
+  url: ../openapi/happyornot-alert-specifications-api-openapi.yml
+  type: openapi
+- name: alertsApi
+  url: ../openapi/happyornot-alerts-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: monitorAlerts
