@@ -168,7 +168,7 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
-  - demographics
+  - Demographics
   tags_raw:
   - demographics
   properties:
@@ -318,7 +318,7 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
-  - questions
+  - Questions
   tags_raw:
   - questions
   properties:
@@ -352,7 +352,7 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
-  - surveys
+  - Surveys
   tags_raw:
   - surveys
   properties:
@@ -386,7 +386,7 @@ apis:
   humanURL: https://api.happy-or-not.com/v2/
   baseURL: https://api.happy-or-not.com/v2/
   tags:
-  - token-introspection
+  - Token Introspection
   tags_raw:
   - token-introspection
   properties:
