@@ -78,54 +78,6 @@ paths:
           $ref: '#/components/responses/ForbiddenResponse'
 components:
   parameters:
-    surveyIdParam:
-      name: surveyId
-      in: query
-      required: false
-      schema:
-        type: integer
-        format: int64
-      description: Survey id that might have been acquired by using the /surveys endpoint
-    pagingLimitParam:
-      name: limit
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        maximum: 10000
-        default: 1000
-      description: Paging parameter to determine the maximum size of the result set matching the search criteria.
-    orderParam:
-      name: order
-      in: query
-      required: false
-      schema:
-        type: string
-        enum:
-        - desc
-        - asc
-        default: asc
-      description: Order parameter to sort feedbacks by time.
-    startDateParam:
-      name: startDate
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date
-      description: Inclusive start date. Defaults to current date. NOTE! startDate->endDate max interval is 1 year.
-      example: 2023-09-26
-    csvSeparatorParam:
-      name: csvSeparator
-      in: query
-      required: false
-      schema:
-        type: string
-        minLength: 1
-        maxLength: 1
-        default: ','
-      description: Applied only for CSV responses
     experiencePointIdParam:
       name: experiencePointId
       in: query
@@ -134,24 +86,6 @@ components:
         type: integer
         format: int64
       description: Experience point id that might have been acquired by using the /experience-points endpoint
-    endDateParam:
-      name: endDate
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date
-      description: Exclusive end date. Defaults to tomorrow. NOTE! startDate->endDate max interval is 1 year.
-      example: 2023-09-27
-    periodParam:
-      name: period
-      in: query
-      required: false
-      schema:
-        type: string
-        pattern: ^(today|yesterday|this-week|last-week|this-month|last-month|this-year|last-year|\d{4}(-(0[1-9]|1[0-2]|q[1-4]))?)$
-      description: If both period parameter and startDate/endDate are given, latter takes precedence. Week start is always Monday.
-      example: today,last-year,2023-12,2023-q3
     includeMisuseParam:
       name: includeMisuse
       in: query
@@ -169,6 +103,27 @@ components:
         minimum: 0
         default: 0
       description: Paging parameter to determine the index of the first item from the whole result set matching the search criteria.
+    csvSeparatorParam:
+      name: csvSeparator
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1
+        default: ','
+      description: Applied only for CSV responses
+    orderParam:
+      name: order
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
+        default: asc
+      description: Order parameter to sort feedbacks by time.
     formatParam:
       name: format
       in: path
@@ -178,6 +133,58 @@ components:
         enum:
         - json
         - csv
+    endDateParam:
+      name: endDate
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      description: Exclusive end date. Defaults to tomorrow. NOTE! startDate->endDate max interval is 1 year.
+      example: 2023-09-27
+    pagingLimitParam:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 10000
+        default: 1000
+      description: Paging parameter to determine the maximum size of the result set matching the search criteria.
+    surveyIdParam:
+      name: surveyId
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int64
+      description: Survey id that might have been acquired by using the /surveys endpoint
+    periodParam:
+      name: period
+      in: query
+      required: false
+      schema:
+        type: string
+        pattern: ^(today|yesterday|this-week|last-week|this-month|last-month|this-year|last-year|\d{4}(-(0[1-9]|1[0-2]|q[1-4]))?)$
+      description: If both period parameter and startDate/endDate are given, latter takes precedence. Week start is always Monday.
+      example: today,last-year,2023-12,2023-q3
+    startDateParam:
+      name: startDate
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      description: Inclusive start date. Defaults to current date. NOTE! startDate->endDate max interval is 1 year.
+      example: 2023-09-26
+  responses:
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
   schemas:
     Metadata:
       type: object
@@ -229,13 +236,6 @@ components:
       - smileyType
       - key
       - value
-  responses:
-    ForbiddenResponse:
-      description: Not authorised to access the resources given in parameters with the given authentication.
-    BadRequestResponse:
-      description: Bad request, possibly invalid or missing parameter values.
-    UnauthorizedResponse:
-      description: Not authenticated, missing or invalid API credentials.
   securitySchemes:
     ApiTokenAuth:
       type: apiKey

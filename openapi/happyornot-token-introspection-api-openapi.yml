@@ -58,9 +58,6 @@ paths:
       operationId: getTokenIntrospect
       x-operation-id-source: derived
 components:
-  responses:
-    UnauthorizedResponse:
-      description: Not authenticated, missing or invalid API credentials.
   schemas:
     TokenIntrospection:
       type: object
@@ -81,6 +78,9 @@ components:
           items:
             type: string
           description: List of scopes granted to the token.
+  responses:
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
   securitySchemes:
     ApiTokenAuth:
       type: apiKey

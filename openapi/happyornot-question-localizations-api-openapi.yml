@@ -75,6 +75,31 @@ paths:
         '403':
           $ref: '#/components/responses/ForbiddenResponse'
 components:
+  responses:
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
+  schemas:
+    QuestionLocalization:
+      type: object
+      properties:
+        questionId:
+          type: integer
+          format: int64
+        locale:
+          type: string
+          pattern: ^[a-z]{2}(_[A-Z]{2})?$
+          example: en_US
+        text:
+          type: string
+          example: How was the service?
+      required:
+      - questionId
+      - locale
+      - text
   parameters:
     csvSeparatorParam:
       name: csvSeparator
@@ -95,31 +120,6 @@ components:
         enum:
         - json
         - csv
-  responses:
-    ForbiddenResponse:
-      description: Not authorised to access the resources given in parameters with the given authentication.
-    BadRequestResponse:
-      description: Bad request, possibly invalid or missing parameter values.
-    UnauthorizedResponse:
-      description: Not authenticated, missing or invalid API credentials.
-  schemas:
-    QuestionLocalization:
-      type: object
-      properties:
-        questionId:
-          type: integer
-          format: int64
-        locale:
-          type: string
-          pattern: ^[a-z]{2}(_[A-Z]{2})?$
-          example: en_US
-        text:
-          type: string
-          example: How was the service?
-      required:
-      - questionId
-      - locale
-      - text
   securitySchemes:
     ApiTokenAuth:
       type: apiKey

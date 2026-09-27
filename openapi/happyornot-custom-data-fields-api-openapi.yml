@@ -112,18 +112,6 @@ paths:
           $ref: '#/components/responses/ForbiddenResponse'
 components:
   schemas:
-    CustomDataField:
-      type: object
-      properties:
-        experiencePointId:
-          type: integer
-        label:
-          type: string
-        value:
-          type: string
-      required:
-      - experiencePointId
-      - label
     CompanyCustomDataField:
       type: object
       properties:
@@ -141,6 +129,25 @@ components:
       - id
       - label
       - type
+    CustomDataField:
+      type: object
+      properties:
+        experiencePointId:
+          type: integer
+        label:
+          type: string
+        value:
+          type: string
+      required:
+      - experiencePointId
+      - label
+  responses:
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
   parameters:
     csvSeparatorParam:
       name: csvSeparator
@@ -161,13 +168,6 @@ components:
         enum:
         - json
         - csv
-  responses:
-    ForbiddenResponse:
-      description: Not authorised to access the resources given in parameters with the given authentication.
-    BadRequestResponse:
-      description: Bad request, possibly invalid or missing parameter values.
-    UnauthorizedResponse:
-      description: Not authenticated, missing or invalid API credentials.
   securitySchemes:
     ApiTokenAuth:
       type: apiKey
