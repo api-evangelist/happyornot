@@ -111,6 +111,33 @@ paths:
         '403':
           $ref: '#/components/responses/ForbiddenResponse'
 components:
+  parameters:
+    formatParam:
+      name: format
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+        - json
+        - csv
+    csvSeparatorParam:
+      name: csvSeparator
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1
+        default: ','
+      description: Applied only for CSV responses
+  responses:
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
   schemas:
     CompanyCustomDataField:
       type: object
@@ -141,33 +168,6 @@ components:
       required:
       - experiencePointId
       - label
-  responses:
-    BadRequestResponse:
-      description: Bad request, possibly invalid or missing parameter values.
-    UnauthorizedResponse:
-      description: Not authenticated, missing or invalid API credentials.
-    ForbiddenResponse:
-      description: Not authorised to access the resources given in parameters with the given authentication.
-  parameters:
-    csvSeparatorParam:
-      name: csvSeparator
-      in: query
-      required: false
-      schema:
-        type: string
-        minLength: 1
-        maxLength: 1
-        default: ','
-      description: Applied only for CSV responses
-    formatParam:
-      name: format
-      in: path
-      required: true
-      schema:
-        type: string
-        enum:
-        - json
-        - csv
   securitySchemes:
     ApiTokenAuth:
       type: apiKey
