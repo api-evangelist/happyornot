@@ -78,65 +78,15 @@ paths:
         '403':
           $ref: '#/components/responses/ForbiddenResponse'
 components:
-  responses:
-    BadRequestResponse:
-      description: Bad request, possibly invalid or missing parameter values.
-    ForbiddenResponse:
-      description: Not authorised to access the resources given in parameters with the given authentication.
-    UnauthorizedResponse:
-      description: Not authenticated, missing or invalid API credentials.
   parameters:
-    includeSpamParam:
-      name: includeSpam
+    includeMisuseParam:
+      name: includeMisuse
       in: query
       required: false
       schema:
         type: boolean
-        default: true
-      description: If true, also feedback that has been deemed spam will be included in the response.
-    surveyIdParam:
-      name: surveyId
-      in: query
-      required: false
-      schema:
-        type: integer
-        format: int64
-      description: Survey id that might have been acquired by using the /surveys endpoint
-    formatParam:
-      name: format
-      in: path
-      required: true
-      schema:
-        type: string
-        enum:
-        - json
-        - csv
-    endDateParam:
-      name: endDate
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date
-      description: Exclusive end date. Defaults to tomorrow. NOTE! startDate->endDate max interval is 1 year.
-      example: 2023-09-27
-    experiencePointIdParam:
-      name: experiencePointId
-      in: query
-      required: false
-      schema:
-        type: integer
-        format: int64
-      description: Experience point id that might have been acquired by using the /experience-points endpoint
-    pagingOffsetParam:
-      name: offset
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-      description: Paging parameter to determine the index of the first item from the whole result set matching the search criteria.
+        default: false
+      description: If true, also feedback that has been deemed misuse will be included in the response.
     periodParam:
       name: period
       in: query
@@ -146,16 +96,14 @@ components:
         pattern: ^(today|yesterday|this-week|last-week|this-month|last-month|this-year|last-year|\d{4}(-(0[1-9]|1[0-2]|q[1-4]))?)$
       description: If both period parameter and startDate/endDate are given, latter takes precedence. Week start is always Monday.
       example: today,last-year,2023-12,2023-q3
-    csvSeparatorParam:
-      name: csvSeparator
+    includeSpamParam:
+      name: includeSpam
       in: query
       required: false
       schema:
-        type: string
-        minLength: 1
-        maxLength: 1
-        default: ','
-      description: Applied only for CSV responses
+        type: boolean
+        default: true
+      description: If true, also feedback that has been deemed spam will be included in the response.
     orderParam:
       name: order
       in: query
@@ -167,6 +115,22 @@ components:
         - asc
         default: asc
       description: Order parameter to sort feedbacks by time.
+    experiencePointIdParam:
+      name: experiencePointId
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int64
+      description: Experience point id that might have been acquired by using the /experience-points endpoint
+    surveyIdParam:
+      name: surveyId
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int64
+      description: Survey id that might have been acquired by using the /surveys endpoint
     startDateParam:
       name: startDate
       in: query
@@ -176,14 +140,6 @@ components:
         format: date
       description: Inclusive start date. Defaults to current date. NOTE! startDate->endDate max interval is 1 year.
       example: 2023-09-26
-    includeMisuseParam:
-      name: includeMisuse
-      in: query
-      required: false
-      schema:
-        type: boolean
-        default: false
-      description: If true, also feedback that has been deemed misuse will be included in the response.
     pagingLimitParam:
       name: limit
       in: query
@@ -194,6 +150,50 @@ components:
         maximum: 10000
         default: 1000
       description: Paging parameter to determine the maximum size of the result set matching the search criteria.
+    csvSeparatorParam:
+      name: csvSeparator
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1
+        default: ','
+      description: Applied only for CSV responses
+    pagingOffsetParam:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      description: Paging parameter to determine the index of the first item from the whole result set matching the search criteria.
+    endDateParam:
+      name: endDate
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      description: Exclusive end date. Defaults to tomorrow. NOTE! startDate->endDate max interval is 1 year.
+      example: 2023-09-27
+    formatParam:
+      name: format
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+        - json
+        - csv
+  responses:
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
   schemas:
     TextFeedback:
       type: object
