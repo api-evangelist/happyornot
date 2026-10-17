@@ -88,13 +88,6 @@ components:
       - followupQuestionId
       - surveyId
       - positive
-  responses:
-    BadRequestResponse:
-      description: Bad request, possibly invalid or missing parameter values.
-    UnauthorizedResponse:
-      description: Not authenticated, missing or invalid API credentials.
-    ForbiddenResponse:
-      description: Not authorised to access the resources given in parameters with the given authentication.
   parameters:
     csvSeparatorParam:
       name: csvSeparator
@@ -115,6 +108,13 @@ components:
         enum:
         - json
         - csv
+  responses:
+    BadRequestResponse:
+      description: Bad request, possibly invalid or missing parameter values.
+    ForbiddenResponse:
+      description: Not authorised to access the resources given in parameters with the given authentication.
+    UnauthorizedResponse:
+      description: Not authenticated, missing or invalid API credentials.
   securitySchemes:
     ApiTokenAuth:
       type: apiKey
